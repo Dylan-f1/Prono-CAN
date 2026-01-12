@@ -102,4 +102,22 @@ export const pronoService = {
   }
 };
 
+// Service des matchs
+export const matchService = {
+  // Récupérer tous les matchs
+  getMatches: async () => {
+    const response = await api.get('/matches');
+    return response.data;
+  }
+};
+
+// Service des équipes
+export const teamService = {
+  // Récupérer toutes les équipes avec leurs joueurs
+  getTeams: async () => {
+    const response = await api.get('/teams');
+    return response.data;
+  }
+};
+
 export default api;

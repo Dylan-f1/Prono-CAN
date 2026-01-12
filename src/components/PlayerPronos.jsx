@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { teams } from '../data/players';
-import { authService, pronoService } from '../services/api';
+import { authService, pronoService, teamService } from '../services/api';
 import '../styles/PlayerPronos.css';
 
 const PlayerPronos = () => {
@@ -10,6 +9,7 @@ const PlayerPronos = () => {
     meilleurButeur: null,
     meilleurGardien: null
   });
+  const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
@@ -28,6 +28,10 @@ const PlayerPronos = () => {
       setUser(JSON.parse(userStr));
 
       try {
+        // Charger les équipes depuis l'API
+        const teamsResponse = await teamService.getTeams();
+        setTeams(teamsResponse.teams);
+
         // Charger les pronos existants depuis le backend
         const response = await pronoService.getPronos();
         

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { matches } from '../data/matches';
-import { authService, pronoService } from '../services/api';
+import { authService, pronoService, matchService } from '../services/api';
 import MatchCard from './MatchCard';
 import '../styles/MatchPronos.css';
 
 const MatchPronos = () => {
   const [pronos, setPronos] = useState({});
+  const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
@@ -25,6 +25,10 @@ const MatchPronos = () => {
       setUser(JSON.parse(userStr));
 
       try {
+        // Charger les matchs depuis l'API
+        const matchesResponse = await matchService.getMatches();
+        setMatches(matchesResponse.matches);
+
         // Charger les pronos existants depuis le backend
         const response = await pronoService.getPronos();
         
@@ -41,7 +45,7 @@ const MatchPronos = () => {
           setPronos(matchPronosObj);
         }
       } catch (error) {
-        console.error('Erreur lors du chargement des pronos:', error);
+        console.error('Erreur lors du chargement des données:', error);
         // Si erreur d'authentification, rediriger vers login
         if (error.response?.status === 401) {
           authService.logout();
