@@ -60,7 +60,7 @@ const MatchPronos = () => {
       ...prev,
       [matchId]: {
         ...prev[matchId],
-        [field]: value
+        [field]: value === '' ? '' : parseInt(value, 10) || 0
       }
     }));
   };
@@ -80,11 +80,20 @@ const MatchPronos = () => {
     setSaving(true);
 
     try {
+      // Convertir les scores en nombres pour être sûr
+      const pronosToSave = {};
+      Object.keys(pronos).forEach(matchId => {
+        pronosToSave[matchId] = {
+          score1: parseInt(pronos[matchId].score1, 10),
+          score2: parseInt(pronos[matchId].score2, 10)
+        };
+      });
+
       // Sauvegarder les pronos via l'API
-      await pronoService.saveMatchPronos(pronos);
+      await pronoService.saveMatchPronos(pronosToSave);
       
       // Sauvegarder aussi en local pour compatibilité
-      localStorage.setItem('matchPronos', JSON.stringify(pronos));
+      localStorage.setItem('matchPronos', JSON.stringify(pronosToSave));
       
       // Rediriger vers la page des pronos joueurs
       navigate('/player-pronos');
