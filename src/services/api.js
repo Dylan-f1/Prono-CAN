@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://prono-can-backend.onrender.com';
+const API_URL = 'https://prono-can-backend.onrender.com/api';
 
 // Créer une instance axios avec configuration
 const api = axios.create({
