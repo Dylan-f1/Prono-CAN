@@ -10,7 +10,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (username && password) {
+    if (username) {
       // Stocker l'utilisateur dans le localStorage
       localStorage.setItem('user', username);
       navigate('/match-pronos');
@@ -34,18 +34,6 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Entrez votre nom"
-              className="input-field"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Mot de passe</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Entrez votre mot de passe"
               className="input-field"
             />
           </div>

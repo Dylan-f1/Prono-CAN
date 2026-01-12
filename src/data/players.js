@@ -42,27 +42,5 @@ export const teams = [
         { id: 403, name: "William Troost-Ekong", position: "Défenseur" },
         { id: 404, name: "Wilfred Ndidi", position: "Milieu" }
       ]
-    },
-    {
-      id: 5,
-      name: "Cameroun",
-      flag: "🇨🇲",
-      players: [
-        { id: 501, name: "Vincent Aboubakar", position: "Attaquant" },
-        { id: 502, name: "André Onana", position: "Gardien" },
-        { id: 503, name: "Collins Fai", position: "Défenseur" },
-        { id: 504, name: "André-Frank Zambo Anguissa", position: "Milieu" }
-      ]
-    },
-    {
-      id: 6,
-      name: "Algérie",
-      flag: "🇩🇿",
-      players: [
-        { id: 601, name: "Riyad Mahrez", position: "Attaquant" },
-        { id: 602, name: "Raïs M'Bolhi", position: "Gardien" },
-        { id: 603, name: "Aïssa Mandi", position: "Défenseur" },
-        { id: 604, name: "Ismaël Bennacer", position: "Milieu" }
-      ]
     }
   ];

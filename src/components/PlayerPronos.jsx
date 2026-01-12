@@ -48,6 +48,10 @@ const PlayerPronos = () => {
     alert(`✅ Vos pronos ont été enregistrés avec succès !\n\nRécapitulatif :\n- ${Object.keys(matchPronos).length} matchs pronostiqués\n- Meilleur joueur : ${selectedPlayers.meilleurJoueur.name}\n- Meilleur buteur : ${selectedPlayers.meilleurButeur.name}\n- Meilleur gardien : ${selectedPlayers.meilleurGardien.name}`);
   };
 
+  const handleBack = () => {
+    navigate('/match-pronos');
+  };
+
   const PlayerCategory = ({ title, category, players }) => (
     <div className="player-category">
       <h2>{title}</h2>
@@ -73,6 +77,9 @@ const PlayerPronos = () => {
   return (
     <div className="player-pronos-container">
       <div className="player-pronos-header">
+        <button onClick={handleBack} className="back-button">
+          ← Retour
+        </button>
         <h1>⚽ Pronos Joueurs</h1>
         <p className="subtitle">Sélectionnez vos joueurs favoris</p>
       </div>

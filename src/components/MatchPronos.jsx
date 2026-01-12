@@ -44,9 +44,22 @@ const MatchPronos = () => {
     navigate('/player-pronos');
   };
 
+  const handleLogout = () => {
+    // Supprimer les données du localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('matchPronos');
+    localStorage.removeItem('playerPronos');
+    
+    // Rediriger vers la page de login
+    navigate('/');
+  };
+
   return (
     <div className="match-pronos-container">
       <div className="match-pronos-header">
+        <button onClick={handleLogout} className="logout-button">
+          Déconnexion
+        </button>
         <h1>🏆 Pronos CAN 2025</h1>
         <p className="welcome-text">Bienvenue <strong>{user}</strong> ! Faites vos pronos</p>
       </div>
