@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { teams } from '../data/players';
+import { authService, pronoService } from '../services/api';
 import '../styles/PlayerPronos.css';
 
 const PlayerPronos = () => {
@@ -9,14 +10,43 @@ const PlayerPronos = () => {
     meilleurButeur: null,
     meilleurGardien: null
   });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
-  const user = localStorage.getItem('user');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
+    const loadData = async () => {
+      const token = localStorage.getItem('token');
+      const userStr = localStorage.getItem('user');
+      
+      if (!token || !userStr) {
+        navigate('/');
+        return;
+      }
+
+      setUser(JSON.parse(userStr));
+
+      try {
+        // Charger les pronos existants depuis le backend
+        const response = await pronoService.getPronos();
+        
+        if (response.prono && response.prono.playerPronos) {
+          setSelectedPlayers(response.prono.playerPronos);
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des pronos joueurs:', error);
+        if (error.response?.status === 401) {
+          authService.logout();
+          navigate('/');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [navigate]);
 
   const allPlayers = teams.flatMap(team => 
     team.players.map(player => ({
@@ -33,24 +63,44 @@ const PlayerPronos = () => {
     }));
   };
 
-  const handleValidate = () => {
+  const handleValidate = async () => {
     if (!selectedPlayers.meilleurJoueur || !selectedPlayers.meilleurButeur || !selectedPlayers.meilleurGardien) {
       alert('Veuillez sélectionner tous les joueurs avant de valider');
       return;
     }
 
-    // Sauvegarder les pronos des joueurs
-    localStorage.setItem('playerPronos', JSON.stringify(selectedPlayers));
-    
-    // Afficher un récapitulatif
-    const matchPronos = JSON.parse(localStorage.getItem('matchPronos'));
-    
-    alert(`✅ Vos pronos ont été enregistrés avec succès !\n\nRécapitulatif :\n- ${Object.keys(matchPronos).length} matchs pronostiqués\n- Meilleur joueur : ${selectedPlayers.meilleurJoueur.name}\n- Meilleur buteur : ${selectedPlayers.meilleurButeur.name}\n- Meilleur gardien : ${selectedPlayers.meilleurGardien.name}`);
+    setSaving(true);
+
+    try {
+      // Sauvegarder les pronos des joueurs via l'API
+      await pronoService.savePlayerPronos(selectedPlayers);
+      
+      // Sauvegarder aussi en local pour compatibilité
+      localStorage.setItem('playerPronos', JSON.stringify(selectedPlayers));
+      
+      // Récupérer les pronos matchs
+      const matchPronos = JSON.parse(localStorage.getItem('matchPronos') || '{}');
+      
+      alert(`✅ Vos pronos ont été enregistrés avec succès !\n\nRécapitulatif :\n- ${Object.keys(matchPronos).length} matchs pronostiqués\n- Meilleur joueur : ${selectedPlayers.meilleurJoueur.name}\n- Meilleur buteur : ${selectedPlayers.meilleurButeur.name}\n- Meilleur gardien : ${selectedPlayers.meilleurGardien.name}`);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde:', error);
+      alert('Erreur lors de la sauvegarde des pronos. Veuillez réessayer.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleBack = () => {
     navigate('/match-pronos');
   };
+
+  if (loading) {
+    return (
+      <div className="player-pronos-container">
+        <div className="loading">Chargement...</div>
+      </div>
+    );
+  }
 
   const PlayerCategory = ({ title, category, players }) => (
     <div className="player-category">
@@ -104,8 +154,8 @@ const PlayerPronos = () => {
         />
       </div>
 
-      <button onClick={handleValidate} className="final-validate-button">
-        Valider tous mes pronos 🎉
+      <button onClick={handleValidate} className="final-validate-button" disabled={saving}>
+        {saving ? 'Sauvegarde...' : 'Valider tous mes pronos 🎉'}
       </button>
     </div>
   );
