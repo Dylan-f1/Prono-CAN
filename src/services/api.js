@@ -27,10 +27,9 @@ api.interceptors.request.use(
 // Service d'authentification
 export const authService = {
   // Inscription
-  register: async (username, email, password) => {
+  register: async (username, password) => {
     const response = await api.post('/auth/register', {
       username,
-      email,
       password
     });
     
