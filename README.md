@@ -1,16 +1,102 @@
-# React + Vite
+# 🏆 Pronos CAN 2025
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application React pour faire des pronos sur les matchs de la CAN (Coupe d'Afrique des Nations).
 
-Currently, two official plugins are available:
+## 🚀 Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+```
 
-## React Compiler
+## 💻 Lancement
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm start
+```
 
-## Expanding the ESLint configuration
+L'application sera accessible sur `http://localhost:3000`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📋 Fonctionnalités
+
+### 1. Page Login
+- Dégradé rouge élégant
+- Formulaire de connexion
+- Validation des champs
+
+### 2. Page Pronos des Matchs
+- Liste de tous les matchs de la CAN
+- Input pour saisir les scores de chaque équipe
+- Validation des pronos
+- Redirection automatique vers la page joueurs
+
+### 3. Page Pronos des Joueurs
+- Sélection du meilleur joueur du tournoi
+- Sélection du meilleur buteur
+- Sélection du meilleur gardien
+- Validation finale avec récapitulatif
+
+## 🛠️ Technologies utilisées
+
+- React 18
+- React Router DOM
+- CSS3 (avec gradients et animations)
+- LocalStorage pour la persistance des données
+
+## 📦 Structure du projet
+
+```
+src/
+  ├── components/
+  │   ├── Login.jsx              # Page de connexion
+  │   ├── Login.css
+  │   ├── MatchPronos.jsx        # Page des pronos matchs
+  │   ├── MatchPronos.css
+  │   ├── PlayerPronos.jsx       # Page des pronos joueurs
+  │   ├── PlayerPronos.css
+  │   ├── MatchCard.jsx          # Composant carte de match
+  │   └── MatchCard.css
+  ├── data/
+  │   ├── matches.js             # Données des matchs
+  │   └── players.js             # Données des équipes et joueurs
+  ├── App.jsx                    # Configuration du routing
+  └── App.css
+```
+
+## 🎨 Design
+
+- Dégradé rouge (#c31432 → #240b36) pour le thème principal
+- Interface responsive
+- Animations smooth sur les interactions
+- Design moderne et épuré
+
+## 💾 Données
+
+Les pronos sont sauvegardés dans le localStorage :
+- `user` : nom d'utilisateur
+- `matchPronos` : pronos des matchs
+- `playerPronos` : pronos des joueurs
+
+## 🔄 Navigation
+
+1. `/` - Page de login
+2. `/match-pronos` - Pronos des matchs
+3. `/player-pronos` - Pronos des joueurs
+
+## 📝 TODO / Améliorations possibles
+
+- [ ] Ajouter un backend pour sauvegarder les pronos
+- [ ] Système de points et classement
+- [ ] Comparaison avec les résultats réels
+- [ ] Page de récapitulatif des pronos
+- [ ] Mode multijoueur
+- [ ] Notifications pour les matchs
+- [ ] Export des pronos en PDF
+
+## 👨‍💻 Développé par Dylan
+
+Application créée avec une logique de développeur professionnelle :
+- Code modulaire et réutilisable
+- Composants React optimisés
+- Gestion d'état propre
+- CSS organisé par composant
+- Navigation fluide
